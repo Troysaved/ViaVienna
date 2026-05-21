@@ -2,8 +2,9 @@
 
 import { CollaborativeEditor } from "./Editor";
 import { useDocumentData } from "react-firebase-hooks/firestore";
-import { doc, updateDoc } from "firebase/firestore";
+import { doc } from "firebase/firestore";
 import { db } from "@/firebase";
+import { updateDocumentTitle } from "@/actions/actions";
 import { FormEvent, useEffect, useRef, useState, useTransition } from "react";
 import Link from "next/link";
 import { ChevronRight, BookOpen, Plus } from "lucide-react";
@@ -30,7 +31,7 @@ function Document({ id }: { id: string }) {
     const next = input.trim();
     if (!next || next === data?.title) return;
     startTransition(async () => {
-      await updateDoc(doc(db, "documents", id), { title: next });
+      await updateDocumentTitle(id, next);
     });
   };
 

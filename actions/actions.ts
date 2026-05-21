@@ -27,6 +27,21 @@ export async function createNewDocument() {
   return { docId: docRef.id };
 }
 
+export async function updateDocumentTitle(roomId: string, title: string) {
+  auth().protect();
+
+  const next = title.trim();
+  if (!next) return { success: false };
+
+  try {
+    await adminDb.collection("documents").doc(roomId).update({ title: next });
+    return { success: true };
+  } catch (error) {
+    console.error("updateDocumentTitle failed", error);
+    return { success: false };
+  }
+}
+
 export async function inviteUserToDocument(roomId: string, email: string) {
   auth().protect();
 
